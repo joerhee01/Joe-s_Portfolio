@@ -1,0 +1,316 @@
+USE sales_analysis_db
+GO
+-- BUSINESS QUESTIONS -- 
+
+-- Q1. WHAT WAS THE BEST MONTH FOR SALES? HOW MUCH WAS EARNED THAT MONTH? 
+-- Q2. WHAT CITY HAD THE HIGHEST NUMBER OF SALES? 
+-- Q3. WHAT TIME SHOULD WE DISPLAY ADVERTISEMENTS TO MAXIMIZE LIKELIHOOD OF CUSTOMER'S BUYING PRODUCT?
+-- Q4. WHAT PRODUCTS ARE OFTEN SOLD TOGETHER?
+-- Q5. WHAT PRODUCT SOLD THE MOST? WHY DO YOU THINK IT SOLD THE MOST? 
+
+-- DATA EXTRACT AND TRANSFORMATION PROCESS --
+
+-- COMBINE 12 MONTHS OF SALES DATA (.CSV) INTO ONE SOURCE TABLE WITH UNION OPERATOR:
+
+WITH sales AS (
+	SELECT * FROM sales_01_2019
+	UNION
+	SELECT * FROM sales_02_2019
+	UNION
+	SELECT * FROM sales_03_2019
+	UNION
+	SELECT * FROM sales_04_2019
+	UNION
+	SELECT * FROM sales_05_2019
+	UNION
+	SELECT * FROM sales_06_2019
+	UNION
+	SELECT * FROM sales_07_2019
+	UNION
+	SELECT * FROM sales_08_2019
+	UNION
+	SELECT * FROM sales_09_2019
+	UNION
+	SELECT * FROM sales_10_2019
+	UNION
+	SELECT * FROM sales_11_2019
+	UNION
+	SELECT * FROM sales_12_2019
+	)
+SELECT *
+INTO sales_2019
+FROM sales
+
+-- DELETE ROW WITH NO ORDER ID:
+
+DELETE FROM sales_2019 
+WHERE [Order ID] IS NULL
+
+-- REVIEW SOURCE TABLE:
+
+SELECT *
+FROM sales_2019
+ORDER BY [Order ID]
+
+-- CREATE A BACKUP OF THE DATASET: 
+
+DROP TABLE sales_2019_backup
+
+SELECT *
+INTO sales_2019_backup
+FROM sales_2019
+ORDER BY [Order Date]
+
+-- ADD A CALCULATED COLUMN FOR SALES PRICE AND SPLIT ADDRESS AND DATETIME COLUMN FOR EASIER QUERYING --
+
+-- SALES PRICE COLUMN: 
+
+ALTER TABLE sales_2019
+ADD [Sales Price] FLOAT
+
+UPDATE sales_2019
+SET [Sales Price] = [Quantity Ordered] * [Price Each]
+
+-- SPLIT DATETIME COLUMN:
+
+ALTER TABLE sales_2019
+ADD [Order Date - Date] DATE,
+	[Order Date - Year] INT,
+	[Order Date - Month] INT,
+	[Order Date - Day] INT,
+	[Order Date - Time - 24 Hours] VARCHAR(100),
+	[Order Date - Time - 12 Hours] VARCHAR(100),
+	[Order Date - Hour] INT,
+	[Order Date - Minute] INT
+
+UPDATE sales_2019
+SET [Order Date - Date] = CONVERT(DATE, [Order Date]),
+	[Order Date - Year] = DATEPART(YEAR, [Order Date]),
+	[Order Date - Month] = DATEPART(MONTH, [Order Date]),
+	[Order Date - Day] = DATEPART(DAY, [Order Date]),
+	[Order Date - Time - 24 Hours] = CONVERT(TIME(0), [Order Date]),
+	[Order Date - Time - 12 Hours] = RIGHT(CONVERT(VARCHAR, [Order Date], 100), 7),
+	[Order Date - Hour] = DATEPART(HOUR, [Order Date]),
+	[Order Date - Minute] = DATEPART(MINUTE, [Order Date])
+
+-- SPLIT ADDRESS INTO STREET, CITY, STATE, AND ZIPCODE:
+
+ALTER TABLE sales_2019
+ADD [Street] VARCHAR(300),
+	[City] VARCHAR(100),
+	[State] VARCHAR(2),
+	[Zipcode] VARCHAR(10)
+
+UPDATE sales_2019
+SET [Street] = SUBSTRING([Purchase Address], 1, CHARINDEX( ', ', [Purchase Address]) - 1),
+	[City] = SUBSTRING([Purchase Address], CHARINDEX(',', [Purchase Address]) + 2, (LEN([Purchase Address]) - ((CHARINDEX(',', [Purchase Address]) + 1) + CHARINDEX(',', REVERSE([Purchase Address]))))),
+	[State] = SUBSTRING([Purchase Address], LEN([Purchase Address]) - (CHARINDEX(',', REVERSE([Purchase Address])) - 3), 2),
+	[Zipcode] = SUBSTRING([Purchase Address], LEN([Purchase Address]) - CHARINDEX(' ', REVERSE([Purchase Address])) + 2, CHARINDEX(' ', REVERSE([Purchase Address])) - 1)
+
+-- MODEL DATASET INTO STAR SCHEMA AND CREATE FACT AND DIMENSION TABLES -- 
+
+-- CREATE DIMENSION TABLES AND INSERT VALUES FROM SOURCE TABLE --
+
+-- PRODUCT DIMENSION TABLE:
+
+CREATE TABLE DIM_product (
+	product_ID INT PRIMARY KEY IDENTITY(1,1),
+	product_description VARCHAR(MAX)
+	)
+INSERT INTO DIM_product
+SELECT DISTINCT 
+	[Product] AS product
+FROM sales_2019
+
+-- STORE DIMENSION TABLE:
+
+CREATE TABLE DIM_store (
+	store_ID INT PRIMARY KEY IDENTITY(1,1),
+	store_address VARCHAR(MAX),
+	street VARCHAR(255),
+	city VARCHAR(50),
+	state VARCHAR(2),
+	zipcode VARCHAR(10)
+	)
+INSERT INTO DIM_store
+SELECT DISTINCT
+	[Purchase Address],
+	[Street],
+	[City],
+	[State],
+	[Zipcode]
+FROM sales_2019
+
+-- DATE DIMENSION TABLE:
+
+CREATE TABLE DIM_date (
+	order_date_time DATETIME PRIMARY KEY,
+	order_date DATE,
+	order_year INT,
+	order_month INT,
+	order_day INT,
+	order_time TIME,
+	order_hour INT,
+	order_minute INT
+	)
+INSERT INTO DIM_date
+SELECT DISTINCT 
+	[Order Date],
+	[Order Date - Date],
+	[Order Date - Year],
+	[Order Date - Month],
+	[Order Date - Day],
+	[Order Date - Time - 24 Hours],
+	[Order Date - Hour],
+	[Order Date - Minute]
+FROM sales_2019
+
+-- CREATE FACT TABLE AND INSERT VALUES FROM SOURCE TABLE --
+
+-- ORDERS FACT TABLE:
+
+CREATE TABLE FACT_orders (
+	order_PK INT PRIMARY KEY IDENTITY(1,1),
+	order_ID INT,
+	product_ID INT FOREIGN KEY (product_ID) REFERENCES DIM_product(product_ID),
+	order_quantity INT,
+	unit_price FLOAT,
+	sale_price FLOAT,
+	order_date_time DATETIME FOREIGN KEY (order_date_time) REFERENCES DIM_date(order_date_time),
+	store_ID INT FOREIGN KEY (store_ID) REFERENCES DIM_store(store_ID)
+	)
+INSERT INTO FACT_orders
+SELECT 
+	o.[Order ID],
+	p.product_ID,
+	o.[Quantity Ordered],
+	o.[Price Each],
+	o.[Sales Price],
+	d.order_date_time,
+	s.store_ID
+FROM sales_2019 AS o
+LEFT JOIN DIM_product AS p
+	ON o.[Product] = p.product_description
+LEFT JOIN DIM_date AS d
+	ON o.[Order Date] = d.order_date_time
+LEFT JOIN DIM_store AS s
+	ON o.[Purchase Address] = s.store_address
+
+-- ANALYSIS PROCESS (ANSWERING THE BUSINESS QUESTIONS) --
+
+-- Q1. WHAT WAS THE BEST MONTH FOR SALES? HOW MUCH WAS EARNED THAT MONTH? 
+
+SELECT 
+	d.order_month AS order_month,
+	ROUND(SUM(o.sale_price), 2) AS monthly_sales
+FROM FACT_orders AS o
+LEFT JOIN DIM_date AS d
+	ON o.order_date_time = d.order_date_time
+GROUP BY d.order_month
+ORDER BY monthly_sales DESC
+
+-- Q2. WHAT CITY HAD THE HIGHEST NUMBER OF SALES? 
+
+SELECT 
+	s.city,
+	ROUND(SUM(o.sale_price), 2) AS total_sales
+FROM FACT_orders AS o
+INNER JOIN DIM_store AS s
+	ON o.store_ID = s.store_ID
+GROUP BY s.city
+ORDER BY total_sales DESC
+
+-- Q3. WHAT TIME SHOULD WE DISPLAY ADVERTISEMENTS TO MAXIMIZE LIKELIHOOD OF CUSTOMER'S BUYING PRODUCT?
+
+WITH total_orders_by_the_hour AS (
+	SELECT 
+		d.order_hour AS hour_of_sales,
+		SUM(o.order_quantity) AS total_order_by_hour,
+		(SELECT SUM(order_quantity) FROM FACT_orders) AS total_order
+	FROM FACT_orders AS o
+	INNER JOIN DIM_date AS d
+		ON o.order_date_time = d.order_date_time
+	GROUP BY d.order_hour
+)
+SELECT 
+	hour_of_sales,
+	total_order_by_hour,
+	total_order,
+	ROUND((total_order_by_hour / total_order)*100, 2) AS percentage_of_orders
+FROM total_orders_by_the_hour
+ORDER BY percentage_of_orders DESC
+
+-- Q4. WHAT PRODUCTS ARE OFTEN SOLD TOGETHER?
+
+WITH combo AS (
+	SELECT 
+		p1.product_description AS original_product,
+		p2.product_description AS secondary_product
+	FROM FACT_orders AS o1
+	INNER JOIN FACT_orders AS o2
+		ON o1.product_ID <> o2.product_ID AND o1.order_ID = o2.order_ID
+	INNER JOIN DIM_product AS p1
+		ON o1.product_ID = p1.[product_ID]
+	INNER JOIN DIM_product AS p2
+		ON o2.product_ID = p2.product_ID
+	)
+SELECT 
+	original_product,
+	secondary_product,
+	COUNT(*) bought_together
+FROM combo
+GROUP BY original_product, secondary_product
+ORDER BY bought_together DESC
+
+-- Q5. WHAT PRODUCT SOLD THE MOST? WHY DO YOU THINK IT SOLD THE MOST? 
+
+SELECT 
+	p.product_description AS product,
+	SUM(o.order_quantity) AS number_of_product_sold
+FROM FACT_orders AS o
+INNER JOIN DIM_product AS p
+	ON o.product_ID = p.product_ID
+GROUP BY product_description
+ORDER BY number_of_product_sold DESC
+
+-- AFTER VIEWING THE RESULT:
+-- THE PRICE MAY HAVE A BIG INFLUENCE TO THE CUSTOMER'S PURCHASING HABIT AS THE TOP SELLING PRODUCTS ARE AT THE LOWER END OF THE PRICE.
+-- POWER IS A NECESSITY TO THE USAGE OF THE DEVICE, SO LIKELY WHY BATTERIES AND CHARGING CABLES ARE AT THE TOP. CUSTOMER BUYING ELECTRONICS MOST LIKELY PURCHASES CHARGING ACCESSORIES TOGETHER WITH THEIR DEVICES.
+-- ANOTHER NOTABLE PRODUCTS THAT ARE AT THE TOP ARE THE AUDIO/HEADPHONE ACCESSORIES. THIS MAY BE DUE TO THE LOWER PRICE OF THIS ITEMS COMPARED TO THE OTHERS. AND ALSO HOW CUSTOMERS WOULD USUALLY PURCHASE THESE ITEMS TOGETHER WITH THEIR DEVICES. 
+-- OTHER FACTORS MAY INFLUENCE THE CUSTOMER'S PURCHASING HABIT. FOR EXAMPLE: THE CHEAPER THE HEADPHONES, THE HIGHER IT SOLD. HOWEVER, THE PRICE HAVE LESS INFLUENCE ON THE PHONES SINCE IPHONES ARE SOLD MORE COMPARED TO THE GOOGLE PHONES.
+-- THIS SHOWS THAT OTHER ATTRIBUTES MAY INFLUENCE WHY CERTAIN PRODUCT ARE SOLD MORE THAN THE OTHERS. 
+-- IT CAN BE DUE TO LOCATION OF THE STORE AND HOW THE DEMOGRAPHICS IN CERTAIN CITY INFLUENCES THE DEMANDS, BRAND LOYALTY, ETC. 
+-- SCREEN RESOLUTION AND DISPLAY REAL ESTATE MAY ALSO PLAY A ROLE ON WHY CERTAIN MONITORS HAVE BEEN SOLD MORE THAN THE OTHERS. 
+
+-- CREATE VIEW FOR POWER BI MARKET BASKET ANALYSIS VISUALIZATION (Q4 BUSINESS QUESTION):
+CREATE VIEW FACT_market_basket AS
+WITH mb AS (
+	SELECT 
+		p1.product_ID AS item_A,
+		p1.[product_description] AS item_A_description,
+		p2.product_ID AS item_B,
+		p2.product_description AS item_B_description,
+		d.order_date_time AS order_date_time,
+		s.store_ID AS store_ID
+	FROM FACT_orders AS o1
+	INNER JOIN FACT_orders AS o2
+		ON o1.order_ID = o2.order_ID AND o1.product_ID <> o2.product_ID
+	INNER JOIN DIM_product AS p1
+		ON o1.product_ID = p1.product_ID
+	INNER JOIN DIM_product AS p2
+		ON o2.product_ID = p2.product_ID
+	INNER JOIN DIM_date AS d
+		ON o1.order_date_time = d.order_date_time
+	INNER JOIN DIM_store AS s
+		ON o1.store_ID = s.store_ID
+		)
+SELECT 
+	item_A, 
+	item_A_description, 
+	item_B, 
+	item_B_description, 
+	order_date_time, 
+	store_ID,
+	COUNT(*) AS bought_together
+FROM mb
+GROUP BY item_a, item_A_description, item_B, item_B_description, order_date_time, store_ID
