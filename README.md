@@ -1,7 +1,19 @@
 # Joe's Portfolio:
-##### *Welcome to my portfolio where I will journal my personal projects as I continue my learning journey towards data analytics.*
+##### Hello and welcome to my portfolio! I'm excited to share my personal data analytics projects with you as I continue my learning journey in this field. Take a look at the available options to learn more about each project. I hope you enjoy reading about them as much as I enjoyed working on them!
 
 ----------------------------------------------------
+<details> 
+
+<summary>
+
+# Project I: Sales Analysis for Electronic Retail Store 
+
+#### *The objective of this project is to analyze sales data for an electronic retail store operating in the United States. By identifying patterns and insights, I aim to answer important business questions related to performance, customer behavior, and market trends. The findings will inform decisions regarding product offerings, pricing, promotions, and marketing strategies to drive growth and success for the business.*
+
+</summary>
+
+<br>
+
 # [Project Title: Sales Analysis for Electronic Retail Store](https://github.com/joerhee01/electronic_store_sales_analysis)
 [Inspired by Keith Galli's video: Solving real world data science tasks with Python Pandas!](https://www.youtube.com/watch?v=eMOA1pPVUc4&list=PLD27DiVmJtrTPYCW_VIn8k9EvrzvJPV0k&index=17)
 
@@ -11,8 +23,8 @@
 - Stack Overflow and other online forums to research DAX and SQL queries.
 - Cole Nussbaumer Knaflic's book, *Storytelling with Data*, to reference best practices for data visualization. 
 
-# Summary: #
-Analyze sales data to find patterns and insights that can help answer business questions for an electronic retail store that operates across the United States.
+# Objective: #
+The objective of this project is to analyze sales data for an electronic retail store operating in the United States. By identifying patterns and insights, I aim to answer important business questions related to performance, customer behavior, and market trends. The findings will inform decisions regarding product offerings, pricing, promotions, and marketing strategies to drive growth and success for the business.
 
 # Business Questions: #
 - Q1. What was the best month for sales? How much was earned that month?
@@ -50,7 +62,22 @@ Analyze sales data to find patterns and insights that can help answer business q
 # Dashboard: #
 ![Dashboard Overview](https://user-images.githubusercontent.com/28738970/233511744-eb250534-1e67-40ca-b9cd-f37291ddea70.png)
 
+</details>
+
 ----------------------------------------------------
+
+<details>
+
+<summary> 
+
+# Project II: Data Profession Survey Analysis
+
+#### *This study aims to analyze various aspects of the data profession, including market rates based on categorical factors such as industry, education, role, gender, age, race, and country. Additionally, the study will explore the common opinions and satisfaction scores of data professionals in relation to their employer, including factors such as management, salary, upward mobility, work/life balance, coworkers, and learning opportunity. The study will also examine where data professionals place the most value on future employment and the most popular tools used by this profession. Through this analysis, the study aims to provide valuable insights into the current trends and preferences of the data profession.*
+
+</summary>
+
+<br>
+
 # [Project Title: Data Profession Survey Analysis](https://github.com/joerhee01/data_professional_survey_analysis)
 [Survey sourced from YouTube channel, Alex The Analyst.](https://www.youtube.com/watch?v=pixlHHe_lNQ&list=PLUaB-1hjhk8FE_XZ87vPPSfHqb6OcM0cF&index=42)
 
@@ -104,5 +131,7 @@ This study aims to analyze various aspects of the data profession, including mar
 # Dashboard: #
 ![image](https://user-images.githubusercontent.com/28738970/233547152-4f3a1913-b8f9-40b6-a3e5-11b3035a48ea.png)
 
-# Disclaimer: #
+#### Disclaimer: #
 *The data provided may not fully reflect the real trends due to various factors like differences in salary rates among countries, the demographics of the viewers of Alex the Analyst, a restricted number of participants, and the precision of their answers. To gain more accurate and precise insights, it may be necessary to gather more data.*
+
+</details>
