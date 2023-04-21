@@ -1,0 +1,259 @@
+USE alex_the_analyst_db
+GO
+
+-- THIS DATA HAS BEEN SOURCED VIA THE YOUTUBE CHANNEL, ALEX THE ANALYST. ALEX HAS SURVEYED HIS SUBSCRIBERS AND COLLECTED USEFUL INFORMATION RELATED TO THEIR JOB INCLUDING SALARY RANGE, AGE, INDUSTRY, AND JOB SATISFACTION. NOTE, THIS WAS ALL FROM DATA PROFESSIONALS WITH DIVERSE EXPERIENCE.
+-- HE HAS USED THIS DATA IN POWER QUERY TO CLEAN THE DATA BUT NOTED SEVERAL LIMITATION WITH THE TOOL. MY OBJECTIVE FOR THIS PROJECT IS TO EXPLORE THIS DATA, APPLY SQL KNOWLEDGE I HAVE LEARNED IN THE DATA CLEANING PROCESS, THEN VISUALIZE THE DATASET WITH POWER BI. 
+
+-- VIEW THE DATASET:
+SELECT *
+FROM dbo.data_professional_survey_db
+
+-- DATA CLEANUP FOR POWER BI:
+
+-- DROP EMPTY AND NOT USEFUL COLUMNS.
+
+ALTER TABLE dbo.data_professional_survey_db
+DROP COLUMN [Date Taken (America/New_York)], 
+	[Time Taken (America/New_York)], 
+	[Browser],
+	[OS],
+	[City],
+	[Country],
+	[Referrer],
+	[Time Spent]
+
+-- I HAVE NOTICED THE COLUMN NAMES HAS BEEN CUT OFF AFTER IMPORTING THE CSV FILE TO SQL SERVER. I WILL RENAME THE COLUMNS TO SOMETHING SIMPLE BUT DESCRIPTIVE.
+
+EXEC sp_rename 'data_professional_survey_db.Q1 - Which Title Best Fits your Current Role?', 'current_role', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q2 - Did you switch careers into Data?', 'is_switched_industry', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q3 - Current Yearly Salary (in USD)', 'salary_range', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q4 - What Industry do you work in?', 'industry', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q5 - Favorite Programming Language', 'favorite_tool', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q6 - How Happy are you in your Current Position with the followi', 'job_satisfaction_salary (1-10)', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q6 - How Happy are you in your Current Position with the follow1', 'job_satisfaction_work_life_balance (1-10)', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q6 - How Happy are you in your Current Position with the follow2', 'job_satisfaction_coworkers (1-10)', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q6 - How Happy are you in your Current Position with the follow3', 'job_satisfaction_management (1-10)', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q6 - How Happy are you in your Current Position with the follow4', 'job_satisfaction_upward_mobility (1-10)', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q6 - How Happy are you in your Current Position with the follow5', 'job_satisfaction_learning_opportunity (1-10)', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q7 - How difficult was it for you to break into Data?', 'difficulty_breaking_into_career', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q8 - If you were to look for a new job today, what would be the', 'most_important_aspect_for_next_job', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q9 - Male/Female?', 'gender', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q10 - Current Age', 'age', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q11 - Which Country do you live in?', 'country', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q12 - Highest Level of Education', 'education_level', 'COLUMN';
+EXEC sp_rename 'data_professional_survey_db.Q13 - Ethnicity', 'ethnicity', 'COLUMN';
+
+-- I WILL CREATE A BACKUP COPY OF THIS DATA SET WITH THE NEW CHANGES APPLIED WHILE I CONTINUE ALTERING THE DATABASE.
+DROP TABLE data_professional_survey_db_backup
+SELECT *
+INTO data_professional_survey_db_backup
+FROM data_professional_survey_db
+
+-- I AM GOING TO STANDARDIZE THE VALUE 'OTHERS' IN THE FOLLOWING COLUMNS: current_role, industry, favorite_tool, most_import_aspect_for_next_job, country, ethnicity.
+SELECT DISTINCT current_role, 
+	industry, 
+	favorite_tool, 
+	most_important_aspect_for_next_job, 
+	country, 
+	ethnicity
+FROM dbo.data_professional_survey_db
+
+-- LETS START WITH THE current_role COLUMN:
+SELECT DISTINCT current_role
+FROM data_professional_survey_db
+WHERE current_role LIKE '%Other%'
+
+-- I WILL LOOK AT THE KEYWORDS AND TRY TO GROUP THESE ROLES INTO THE DEFAULT DISTINCT VALUES: DATA ANALYST, DATA ARCHITECT, DATA ENGINEER, DATA SCIENTIST, DATABASE DEVELOPER, AND STUDENT/LOOKING/NONE.
+-- EXAMPLE: BUSINESS ANALYST WILL BE GROUPED INTO DATA ANALYST, DEVELOPERS WILL BE GROUPED INTO DATABASE DEVELOPER, ENGINEERS WILL BE GROUPED INTO DATA ENGINEERS, ETC.
+-- THEN I WILL GROUP WHATEVER OTHERS ARE LEFT INTO A STANDARD 'OTHER' GROUP.
+SELECT DISTINCT current_role, COUNT(current_role)
+FROM data_professional_survey_db
+GROUP BY current_role
+
+UPDATE data_professional_survey_db
+SET current_role = 'Data Analyst'
+WHERE current_role LIKE '%Analy%';
+
+UPDATE data_professional_survey_db
+SET current_role = 'Database Developer'
+WHERE current_role LIKE '%dev%';
+
+UPDATE data_professional_survey_db
+SET current_role = 'Data Engineer'
+WHERE current_role LIKE '%eng%';
+
+UPDATE data_professional_survey_db
+SET current_role = 'Other'
+WHERE current_role LIKE '%other%';
+
+-- I HAVE NOTICED THERE WERE ONLY 3 DATA ARCHITECTS AND ONLY A HANDFUL OF ENGINEERS AND DEVELOPERS IN THIS DATABASE SO I HAVE DECIDED TO FURTHER STANDARDIZE THESE ROLES BY GROUPING THEM INTO AN BROAD UMBRELLA ROLE, DATA ENGINEER. 
+UPDATE data_professional_survey_db
+SET current_role = 'Data Engineer'
+WHERE current_role LIKE '%Eng%' OR current_role LIKE '%dev%' OR current_role LIKE '%arch%'
+
+-- NOW LET US MOVE ON TO THE industry COLUMN:
+SELECT DISTINCT industry
+FROM data_professional_survey_db
+WHERE industry LIKE '%Other%'
+
+-- WE HAVE THE FOLLOWING STANDARD INDUSTRY IN THIS DATABASE. BEST APPROACH FOR ME IS TO GROUP EACH INDUSTRY INTO A FEWER COMMON SECTORS. 
+SELECT DISTINCT industry
+FROM data_professional_survey_db
+WHERE industry NOT LIKE '%Other%'
+
+-- FIRST I WILL RENAME THE COLUMN TO 'SECTOR'.
+EXEC sp_rename 'data_professional_survey_db.industry', 'sector', 'COLUMN';
+
+SELECT DISTINCT sector
+FROM data_professional_survey_db
+WHERE sector LIKE '%Other%';
+
+SELECT DISTINCT sector
+FROM data_professional_survey_db
+WHERE sector NOT LIKE '%Other%';
+
+-- NOW I WILL GROUP THE RELEVANT INDUSTRIES INTO THE FOLLOWING COMMON SECTORS:
+
+-- Information Technology:
+UPDATE data_professional_survey_db
+SET sector = 'Information Technology'
+WHERE sector LIKE '%Data%' OR sector LIKE '%tech%' OR sector LIKE '%IT%' OR sector LIKE '%semiconductor%'
+
+-- Health Care:
+UPDATE data_professional_survey_db
+SET sector = 'Health Care'
+WHERE sector LIKE '%healthcare%' OR sector LIKE '%medical%'
+
+-- Public:
+UPDATE data_professional_survey_db
+SET sector = 'Public'
+WHERE sector LIKE '%defense%' OR sector LIKE '%social%' OR sector LIKE '%gov%' OR sector LIKE '%law%' OR sector LIKE '%ngo%' OR sector LIKE '%police%' OR sector LIKE '%public%' OR sector LIKE '%social%' OR sector LIKE '%state%' OR sector LIKE '%urban%' OR sector LIKE '%edu%' OR sector LIKE '%culture%' 
+
+-- Financial:
+UPDATE data_professional_survey_db
+SET sector = 'Financial'
+WHERE sector LIKE '%cons%' OR sector LIKE '%cobsuk%' OR sector LIKE '%cowork%' OR sector LIKE '%insurance%' OR sector LIKE '%legal%' OR sector LIKE '%professional%' OR sector LIKE '%staff%' OR sector LIKE '%workforce%' OR sector LIKE '%Finance%' OR sector LIKE '%customer%'
+
+-- Consumer Discretionary:
+UPDATE data_professional_survey_db
+SET sector = 'Consumer Discretionary'
+WHERE sector LIKE '%cosme%' OR sector LIKE '%ecom%' OR sector LIKE '%e-com%' OR sector LIKE '%electronic%' OR sector LIKE '%entertain%' OR sector LIKE '%fashion%' OR sector LIKE '%fmcg%' OR sector LIKE '%gaming%' OR sector LIKE '%reta%' OR sector LIKE '%sport%'
+
+-- Communication Services:
+UPDATE data_professional_survey_db
+SET sector = 'Communication Services'
+WHERE sector LIKE '%adve%' OR sector LIKE '%market%' OR sector LIKE '%media%' OR sector LIKE '%research%'
+
+-- Industrials:
+UPDATE data_professional_survey_db
+SET sector = 'Industrials'
+WHERE sector LIKE '%manu%' OR sector LIKE '%aero%' OR sector LIKE '%air%' OR sector LIKE '%auto%' OR sector LIKE '%avia%' OR sector LIKE '%distri%' OR sector LIKE '%logi%' OR sector LIKE '%supply%' OR sector LIKE '%ware%' OR sector LIKE '%wholesale%' OR sector LIKE '%arros%' OR sector LIKE '%sensors%'
+
+-- Consumer Staples:
+UPDATE data_professional_survey_db
+SET sector = 'Consumer Staples'
+WHERE sector LIKE '%bev%' OR sector LIKE '%food%' OR sector LIKE '%culi%' OR sector LIKE '%home%' OR sector LIKE '%manage%' OR sector LIKE '%customer%' OR sector LIKE '%outso%' OR sector LIKE '%poultry%' OR sector LIKE '%agri%'
+
+-- Energy and Utilities:
+UPDATE data_professional_survey_db
+SET sector = 'Energy'
+WHERE sector LIKE '%ener%' OR sector LIKE '%oil%' OR sector LIKE '%renew%' OR sector LIKE '%util%' 
+
+-- NOW LET US MOVE ON TO THE favorite_tool COLUMN.
+-- BY LOOKING AT THE OPTIONS AVAILABLE. IT MAKE SENSE TO ADD SQL INTO A NEW GROUP AND GROUP THE REST INTO OTHER.
+SELECT DISTINCT favorite_tool, COUNT(favorite_tool)
+FROM data_professional_survey_db
+GROUP BY favorite_tool
+ORDER BY COUNT(favorite_tool) DESC
+
+UPDATE data_professional_survey_db
+SET favorite_tool = 'SQL'
+WHERE favorite_tool LIKE '%SQL%'
+
+UPDATE data_professional_survey_db
+SET favorite_tool = 'Other'
+WHERE favorite_tool LIKE '%Other%' OR (favorite_tool NOT LIKE '%javascript%' AND favorite_tool LIKE '%Java')
+
+-- NOW LET US MOVE ON TO THE most_important_aspect_for_next_job COLUMN.
+-- IT WILL MAKE SENSE TO STANDARDIZE THE 'OTHER' WITHOUT THE DETAIL.
+SELECT DISTINCT most_important_aspect_for_next_job, COUNT(most_important_aspect_for_next_job)
+FROM data_professional_survey_db
+GROUP BY most_important_aspect_for_next_job
+ORDER BY COUNT(most_important_aspect_for_next_job) DESC
+
+UPDATE data_professional_survey_db
+SET most_important_aspect_for_next_job = 'Other'
+WHERE most_important_aspect_for_next_job LIKE '%Other%'
+
+-- NOW LET US MOVE ON TO THE country COLUMN.
+-- FOR THIS, I WILL USE THE REPLACE FUNCTION TO REMOVE THE STRING 'Other (Please Specify):' FIRST. THEN FIX THE TYPO.
+-- ALSO I WILL HAVE TO FIX ALL CAPS IN TUNISIA AND LEADING SPACE IN SOMALIA USING THE UPPER, LOWER, AND TRIM FUNCTION.
+SELECT DISTINCT country, COUNT(country)
+FROM data_professional_survey_db
+GROUP BY country
+ORDER BY COUNT(country) DESC, country
+
+UPDATE data_professional_survey_db
+SET country = REPLACE(country, 'Other (Please Specify):', '')
+
+UPDATE data_professional_survey_db
+SET country = TRIM(country)
+WHERE country LIKE '%Somalia%'
+
+UPDATE data_professional_survey_db
+SET country = UPPER(LEFT(country,1)) + LOWER(SUBSTRING(country, 2, LEN(country)))
+WHERE country LIKE '%Tunisia%'
+
+-- NOW LET US MOVE ON TO THE ethnicity COLUMN AND WE ARE ALL DONE STANDARDIZING THE COLUMNS.
+-- IT SEEMS MOST OF THE OTHER GROUP CAN BE MOVED INTO THE STANDARD ETHNICITY GROUP AS MOST OF THEM ARE JUST THEIR COUNTRY OF ORIGIN WHICH CAN BE CATEGORIZED WITHIN THE STANDARD ETHNICITY AVAILABLE. 
+-- MIXED RACE OR VALUES WITH NO DESCRIPTIVE ETHNIC ORIGIN WILL BE GROUPED AS OTHER. 
+SELECT DISTINCT ethnicity, COUNT(ethnicity)
+FROM data_professional_survey_db
+GROUP BY ethnicity
+ORDER BY COUNT(ethnicity) DESC
+
+-- BLACK OR AFRICAN AMERICAN
+UPDATE data_professional_survey_db
+SET ethnicity = 'Black or African American'
+WHERE ethnicity LIKE 'Other (Please Specify):'
+
+-- ASIAN OR ASIAN AMERICAN
+UPDATE data_professional_survey_db
+SET ethnicity = 'Asian or Asian American'
+WHERE ethnicity LIKE 'Other (Please Specify):'
+
+-- WHITE OR CAUCASIAN
+UPDATE data_professional_survey_db
+SET ethnicity = 'White or Caucasian'
+WHERE ethnicity LIKE 'Other (Please Specify):'
+
+-- Hispanic or Latino
+UPDATE data_professional_survey_db
+SET ethnicity = 'Hispanic or Latino'
+WHERE ethnicity LIKE 'Other (Please Specify):'
+
+-- AMERICAN INDIAN OR ALASKA NATIVE OR PACIFIC ISLANDER
+UPDATE data_professional_survey_db
+SET ethnicity = 'American Indian or Alaska Native or Pacific Islander'
+WHERE ethnicity LIKE 'Other (Please Specify):'
+
+-- OTHER
+UPDATE data_professional_survey_db
+SET ethnicity = 'Other'
+WHERE ethnicity LIKE '%other%'
+
+-- I HAVE DECIDED TO GROUP UNSPECIFIED/BLANK VALUES IN THE education_level COLUMN INTO 'Other' GROUP
+SELECT DISTINCT education_level, COUNT(education_level)
+FROM data_professional_survey_db
+GROUP BY education_level
+ORDER BY COUNT(education_level) DESC
+
+UPDATE data_professional_survey_db
+SET education_level = 'Other'
+WHERE education_level = ''
+
+
+
+
+
+
