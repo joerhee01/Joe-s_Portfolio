@@ -11,7 +11,7 @@
 #### *Conduct a thorough analysis of a hotel revenue dataset to identify trends and insights related to revenue growth, hotel occupancy rates, guest parking requirements, distribution channels, and customer characteristics. The primary objective is to provide insights and answers to pertinent business questions within the hospitality industry.*
 
 # Dashboard: #
-![image](https://user-images.githubusercontent.com/28738970/233808775-ed735227-8499-480b-8651-e76ee4d0e475.png)
+![image](https://user-images.githubusercontent.com/28738970/233811602-d16169ba-0644-444f-9687-10bd6dae6070.png)
 
 </summary>
 
