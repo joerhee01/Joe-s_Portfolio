@@ -314,7 +314,7 @@ This study aims to analyze various aspects of the data profession, including mar
 # My Analysis: #
 - In this survey, which included a total of 630 participants, 261 were found to be residing in the United States. As a resident of the US, I am keen to focus my analysis on data pertaining to this region. Notably, the survey reveals that the median age of participants is 29 years old, and the median annual salary is $75,500.
   
-  (*Number of Participants in the US, Median Age of Participants, and Median Salary*
+  (*Number of Participants in the US, Median Age of Participants, and Median Salary*)
   
   ![image](https://user-images.githubusercontent.com/28738970/233820525-e7df7002-4d25-45c0-8c33-6ab9c1f47ef6.png)
 
