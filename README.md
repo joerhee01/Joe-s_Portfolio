@@ -230,7 +230,7 @@ The objective of this project is to analyze sales data for an electronic retail 
 
 - *Q5. What product sold the most? Why do you think it sold the most?* 
 
-- According to the chart, the top-selling products are AAA Batteries (4-pack), AA Batteries, USB-C Charging Cable, and Lightning Charger. This trend may be attributed to the importance of power-related products for electronic devices. It is noteworthy that the top-selling products are also the cheapest per unit. However, the top-earning products are the MacBook Pro Laptop, iPhone, ThinkPad Laptop, and Google Phone, with little influence from products in the top-selling list. To maximize sales and earnings, it would be wise to balance prices and offer promotions for the top-earning products to increase the likelihood of increasing sales and maximize profits.
+- According to the chart, the top-selling products are AAA Batteries (4-pack), AA Batteries, USB-C Charging Cable, and Lightning Charger. This trend may be attributed to the importance of power-related products for electronic devices. It is noteworthy that the top-selling products are also the cheapest per unit. However, the top-earning products are the MacBook Pro Laptop, iPhone, ThinkPad Laptop, and Google Phone, with little influence from products in the top-selling list generating profit. To maximize sales and earnings, it would be wise to balance prices and offer promotions for the top-earning products to increase the likelihood of increasing sales and maximize profits.
 
   (*Top Selling Products by Unit Price of the Product*)
   
