@@ -112,7 +112,7 @@ Conduct a thorough analysis of a hotel revenue dataset to identify trends and in
   
   ![image](https://user-images.githubusercontent.com/28738970/233810413-56c69dc5-f762-47ac-a288-9cfae27c23bf.png)
 
-- August is the most profitable month in all three years (2018, 2019, and 2020). We should investigate what draws guests during this month. Additionally, I noticed that April, August, and October require the most parking space. It would be wise to plan for this to avoid issues. However, the data for 2018 and 2020 are incomplete, and having complete data may provide better insights.
+- August is the most profitable month in all three years (2018, 2019, and 2020). We should investigate what draws guests during this month. Additionally, I noticed that Q3 and Q4 periods require the most parking space. It would be wise to plan for this ahead to avoid problems with parking spaces. However, the data for 2018 and 2020 are incomplete, and having complete data may provide better insights.
   
   (*2020 Revenue and Parking Matrix*)
   
