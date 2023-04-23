@@ -1,5 +1,5 @@
 # Joe's Portfolio:
-##### Hello and welcome to my portfolio! I'm excited to share my personal data analytics projects with you as I continue my learning journey in this field. Take a look at the available options to learn more about each project. I hope you enjoy reading about them as much as I enjoyed working on them!
+##### Greetings and welcome to my portfolio! As I continue to explore the fascinating world of data analytics, I'm thrilled to present my personal projects to you. Each project showcases my process of exploratory data analysis, and I would be delighted if you took a closer look to learn more. I hope you find my projects as enjoyable to read about as I did working on them!
 
 ---------------------------------------------------
 <details> 
