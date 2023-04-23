@@ -227,7 +227,7 @@ The objective of this project is to analyze sales data for an electronic retail 
 #### *This study aims to analyze various aspects of the data profession, including market rates based on categorical factors such as industry, education, role, gender, age, race, and country. Additionally, the study will explore the common opinions and satisfaction scores of data professionals in relation to their employer, including factors such as management, salary, upward mobility, work/life balance, coworkers, and learning opportunity. The study will also examine where data professionals place the most value on future employment and the most popular tools used by this profession. Through this analysis, the study aims to provide valuable insights into the current trends and preferences of the data profession.*
 
 # Dashboard: #
-![image](https://user-images.githubusercontent.com/28738970/233547152-4f3a1913-b8f9-40b6-a3e5-11b3035a48ea.png)
+![image](https://user-images.githubusercontent.com/28738970/233820497-dce0e7b9-67ce-4481-85e0-4458cf09276d.png)
 
 </summary>
 
@@ -283,8 +283,47 @@ This study aims to analyze various aspects of the data profession, including mar
 - Created a slicer to allow for drill-through reports based on participants' categorical attributes such as role, gender, age, ethnicity, and country.
 - Slicer enabled deeper insights into specific groups within the dataset.
 
+# My Analysis: #
+- In this survey, which included a total of 630 participants, 261 were found to be residing in the United States. As a resident of the US, I am keen to focus my analysis on data pertaining to this region. Notably, the survey reveals that the median age of participants is 29 years old, and the median annual salary is $75,500.
+  
+  ![image](https://user-images.githubusercontent.com/28738970/233820525-e7df7002-4d25-45c0-8c33-6ab9c1f47ef6.png)
+
+- Median salaries varied across sectors among the participants, with communication services and public sector having the lowest median salary at $53,000, while the others had a median salary of $75,000. However, it is important to note that this finding was based on a smaller sample size of 38 participants working in the communication services and public sector.
+- Among the 38 participants working in the public and communication services sector, individuals with a masters degree and those with a high school degree were found to have the highest median salary of $75,000.
+- It is worth noting that out of the 38 participants working in the public and communication services sector, 3 held a high school diploma while 17 held a master's degree. This suggests that the median salary figure for individuals with a master's degree may be more reliable due to the larger sample size. 
+
+  ![image](https://user-images.githubusercontent.com/28738970/233820809-f1ae6690-4354-4421-af48-9572c5716621.png)
+
+- Among 261 US-based data professionals who participated in the survey, Python was the most popular tool, chosen by 57% of the respondents, followed by R and SQL.
+- When it comes to breaking into the field, 39% of the respondents found it to be neither easy nor difficult, while 27% found it to be difficult and 22% found it to be easy.
+- In terms of what they value most for their next employment, 46% of the respondents voted for a better salary, while 20% voted for remote work.
+
+  ![image](https://user-images.githubusercontent.com/28738970/233821314-2b391916-531a-40c2-833b-49e27132a9bb.png)
+
+- When asked to rate their job satisfaction on a scale of 1 to 10 based on factors such as management, salary, upward mobility, work/life balance, coworkers, and learning, the survey respondents gave the highest average scores to coworkers and work/life balance. On the other hand, salary received the lowest average satisfaction score, with respondents averaging a score of 5 out of 10.
+
+  ![image](https://user-images.githubusercontent.com/28738970/233821471-f46df57f-bce7-4638-979a-b3e74346005e.png)
+
+- Out of the 261 participants in the US, 79 were female and 182 were male.
+- While the median salary was the same for both genders, the median age of female data professionals was higher at 31 years compared to males at 28 years.
+- Based on the survey results related to favorite tools, difficulty breaking into the job, and what they value most for their next job, it seems that the general opinion among the participants is similar between both genders. 
+  
+  (*Male Participants*)
+  ![image](https://user-images.githubusercontent.com/28738970/233821731-ad213324-c537-4536-8930-6e3559df6ac9.png)
+  
+  (*Female Participants*)
+  ![image](https://user-images.githubusercontent.com/28738970/233821739-5fadc201-a9c2-4bcc-9478-67d72287886c.png)
+
+- According to the satisfaction score with their current employment, both male and female participants rated coworkers and work/life balance as the most satisfying aspects of their job. However, on average, female participants gave a lower satisfaction score than male participants. It would be interesting to conduct further analysis to identify the factors that contributed to this disparity in satisfaction between male and female participants.
+  
+  (*Male Participants*)
+  ![image](https://user-images.githubusercontent.com/28738970/233822276-20ec94e7-10a9-4ee8-924b-84db2fe69dfb.png)
+  (*Female Participants*)
+  ![image](https://user-images.githubusercontent.com/28738970/233822268-21b9f9d7-36d2-4124-a6ec-cc52efa32869.png)
+  
+
 
 #### Disclaimer: #
-*The data provided may not fully reflect the real trends due to various factors like differences in salary rates among countries, the demographics of the viewers of Alex the Analyst, a restricted number of participants, and the precision of their answers. To gain more accurate and precise insights, it may be necessary to gather more data.*
+*The data provided may not fully reflect the real trends due to various factors like differences among countries, the demographics of the viewers of Alex the Analyst, a limited sample size of 630, and the honesty of the participants' answers. To gain more accurate and precise insights, it may be necessary to gather more data.*
 
 </details>
