@@ -166,7 +166,7 @@ The objective of this project is to analyze sales data for an electronic retail 
 - Q2. What city had the highest number of sales?
 - Q3. What time should we display advertisements to maximize likelihood of customer's buying product?
 - Q4. What products are often sold together? 
-- Q5. What product so the most? Why do you think it sold the most?  
+- Q5. What product sold the most? Why do you think it sold the most?  
 
 # Discovery: #
 - The project involves working with 12 CSV files, each representing a month of the year.
