@@ -6,11 +6,11 @@
 
 <summary>
 
-# Project: Hotel Revenue Analysis
+### Project: Hotel Revenue Analysis
 
 #### *Conduct a thorough analysis of a hotel revenue dataset to identify trends and insights related to revenue growth, hotel occupancy rates, guest parking requirements, distribution channels, and customer characteristics. The primary objective is to provide insights and answers to pertinent business questions within the hospitality industry.*
 
-# Dashboard: #
+### Dashboard: ###
 ![image](https://user-images.githubusercontent.com/28738970/233811602-d16169ba-0644-444f-9687-10bd6dae6070.png)
 
 </summary>
@@ -81,34 +81,49 @@ Conduct a thorough analysis of a hotel revenue dataset to identify trends and in
 
 - *Q1. Is our hotel revenue growing by year?*
 
-- Answer: The revenue of the hotel appears to be increasing over the years, with 2019 showing a particularly high amount that could be considered an outlier. To gain more insights into why 2019 had such high revenue, additional data from the source may be necessary. Nonetheless, the trend indicates a positive growth in revenue.
-
+- The revenue of the hotel appears to be increasing over the years, with 2019 showing a particularly high amount that could be considered an outlier. To gain more insights into why 2019 had such high revenue, additional data from the source may be necessary. Nonetheless, the trend indicates a positive growth in revenue.
+  
+  (*Total Revenue Trend from 2018 to 2020*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233808997-99366179-5237-48bd-8e03-bb2b873fde4e.png)
-
+  
+  
 - *Q2. Should we increase our parking lot size?*
 
-- Answer: Based on the data, it doesn't appear that the parking requirements are increasing significantly to warrant an expansion of the parking lot size, particularly if the hotel was able to accommodate the guest parking needs during the high-revenue year of 2019.
+- Based on the data, it doesn't appear that the parking requirements are increasing significantly to warrant an expansion of the parking lot size, particularly if the hotel was able to accommodate the guest parking needs during the high-revenue year of 2019.
 
+  (*Parking Required by Guest Trend from 2018-2020*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233810262-40263b70-7642-4d7e-8f52-8ed415837c22.png)
 
 - *Q3. What trend can we see in the data?*
 
-- Answer: Based on my analysis, it appears that there is an inverse relationship between the average daily rate and hotel occupancy. As the average daily rate increases, hotel occupancy decreases. However, despite the lower hotel occupancy, there is an increase in revenue associated with the higher rate. Therefore, finding a balance between the average daily rate and hotel occupancy is important in maximizing revenue. By finding the optimal rate, the hotel can attract more customers while still generating sufficient revenue.
+- Based on my analysis, it appears that there is an inverse relationship between the average daily rate and hotel occupancy. As the average daily rate increases, hotel occupancy decreases. However, despite the lower hotel occupancy, there is an increase in revenue associated with the higher rate. Therefore, finding a balance between the average daily rate and hotel occupancy is important in maximizing revenue. By finding the optimal rate, the hotel can attract more customers while still generating sufficient revenue.
 
+  (*Hotel Occupancy, Revenue Rate, and Average Daily Rate Comparison*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233810386-1133d586-3103-4b4d-90b0-32cb7641682d.png)
 
-- Answer: Based on the analysis of the hotel revenue dataset, the following insights were uncovered:
+- Based on the analysis of the hotel revenue dataset, the following insights were uncovered:
   - Portugal is the top revenue-generating country for the hotel, followed by Great Britain, France, and Spain.
   - The most effective distribution channel for generating revenue is through travel agencies, followed by direct bookings and then corporate bookings.
-
+  
+  (*Top Revenue Bringing Country Distributed By the Distribution Channel*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233810413-56c69dc5-f762-47ac-a288-9cfae27c23bf.png)
 
-- Answer: August is the most profitable month in all three years (2018, 2019, and 2020). We should investigate what draws guests during this month. Additionally, I noticed that April, August, and October require the most parking space. It would be wise to plan for this to avoid issues. However, the data for 2018 and 2020 are incomplete, and having complete data may provide better insights.
-
+- August is the most profitable month in all three years (2018, 2019, and 2020). We should investigate what draws guests during this month. Additionally, I noticed that April, August, and October require the most parking space. It would be wise to plan for this to avoid issues. However, the data for 2018 and 2020 are incomplete, and having complete data may provide better insights.
+  
+  (*2020 Revenue and Parking Matrix*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233810565-ce51455b-6039-4924-af37-f464e85fab4c.png)
 
+  (*2019 Revenue and Parking Matrix*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233810915-86458cf0-7412-4586-9627-5f4852b4348d.png)
 
+  (*2018 Revenue and Parking Matrix*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233810598-9708c1f2-262b-4ba9-95ee-07d91f425077.png)
 
 
@@ -123,11 +138,11 @@ Conduct a thorough analysis of a hotel revenue dataset to identify trends and in
 
 <summary>
 
-# Project: Sales Analysis for Electronic Retail Store 
+### Project: Sales Analysis for Electronic Retail Store 
 
 #### *The objective of this project is to analyze sales data for an electronic retail store operating in the United States. By identifying patterns and insights, I aim to answer important business questions related to performance, customer behavior, and market trends. The findings will inform decisions regarding product offerings, pricing, promotions, and marketing strategies to drive growth and success for the business.*
 
-# Dashboard: #
+### Dashboard: ###
 ![image](https://user-images.githubusercontent.com/28738970/233818600-5277aaec-291e-45fa-bb9f-e3c0ca5e8e79.png)
 
 </summary>
@@ -183,19 +198,25 @@ The objective of this project is to analyze sales data for an electronic retail 
 - *Q1. What was the best month for sales? How much was earned that month?*
 
 - The highest sales of over $4.61 million were achieved in December. 
-
+  
+  (*Total Sales by Months*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233818625-3157fdaa-3a02-458a-af63-0c5408c674a7.png)
 
 - *Q2. What city had the highest number of sales?*
 
 - The city with the highest sales was San Francisco, which amounted to $8.25 million. The second highest was Los Angeles at $5.45 million, followed by New York City at $4.66 million.
-
+   
+  (*Store Location Matrix*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233818638-c88d950b-6e91-4239-b805-66e48341e543.png)
 
 - *Q3. What time should we display advertisements to maximize likelihood of customer's buying product?*
 
 - According to the chart, the peak sales time occurred at 11:58 AM, with 281 products sold, followed by 1:25 PM with 271 products sold, 8:13 PM with 269 products sold, 11:26 AM with 268 products sold, and 6:36 PM with 262 products sold. Based on this trend, advertising between 11:00 AM to 2:00 PM midday and 6:30 PM to 9:30 PM would be most effective, as sales start to decrease steadily after this time frame.
-
+  
+  (*Total Product Sold Distributed by Time of the Day*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233818666-ddc1c2ea-c22d-42d4-9049-ab26ff0a1d97.png)
 
 
@@ -203,13 +224,20 @@ The objective of this project is to analyze sales data for an electronic retail 
 
 - The data shows that the USB-C Charging cable was the product that customers most frequently purchased together, with 2208 sales, followed closely by the iPhone with 2018 sales, and wired headphones with 1856 sales. The lightning charging cable, Google phone, and Apple Airpods were also popular purchases. These insights suggest that customers prefer to buy devices along with accessories and power cables. To maximize sales, it would be wise to market these items together with promotions or place them in close proximity to each other.
 
+  (*Count of Products That Were Purchased Together*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233818680-3d3bb1fb-ea3b-48fe-be3b-4e44869f0e2b.png)
 
 - *Q5. What product sold the most? Why do you think it sold the most?* 
 
 - According to the chart, the top-selling products are AAA Batteries (4-pack), AA Batteries, USB-C Charging Cable, and Lightning Charger. This trend may be attributed to the importance of power-related products for electronic devices. It is noteworthy that the top-selling products are also the cheapest per unit. However, the top-earning products are the MacBook Pro Laptop, iPhone, ThinkPad Laptop, and Google Phone, with little influence from products in the top-selling list. To maximize sales and earnings, it would be wise to balance prices and offer promotions for the top-earning products to increase the likelihood of increasing sales and maximize profits.
 
+  (*Top Selling Products by Unit Price of the Product*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233818441-9a6fb556-cf80-47b8-b55f-70390b1186ae.png)
+  
+  (*Top Earning Products vs Top Selling Products*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233818475-ecd8188a-467e-4ab4-a1ac-b2cbd9bc411b.png)
 
 
@@ -222,18 +250,18 @@ The objective of this project is to analyze sales data for an electronic retail 
 
 <summary> 
 
-# Project: Data Profession Survey Analysis
+### Project: Data Professional Survey Analysis
 
 #### *This study aims to analyze various aspects of the data profession, including market rates based on categorical factors such as industry, education, role, gender, age, race, and country. Additionally, the study will explore the common opinions and satisfaction scores of data professionals in relation to their employer, including factors such as management, salary, upward mobility, work/life balance, coworkers, and learning opportunity. The study will also examine where data professionals place the most value on future employment and the most popular tools used by this profession. Through this analysis, the study aims to provide valuable insights into the current trends and preferences of the data profession.*
 
-# Dashboard: #
+### Dashboard: ###
 ![image](https://user-images.githubusercontent.com/28738970/233820497-dce0e7b9-67ce-4481-85e0-4458cf09276d.png)
 
 </summary>
 
 <br>
 
-# [Project Title: Data Profession Survey Analysis](https://github.com/joerhee01/data_professional_survey_analysis)
+# [Project Title: Data Professional Survey Analysis](https://github.com/joerhee01/data_professional_survey_analysis)
 [Survey sourced from YouTube channel, Alex The Analyst.](https://www.youtube.com/watch?v=pixlHHe_lNQ&list=PLUaB-1hjhk8FE_XZ87vPPSfHqb6OcM0cF&index=42)
 
 #### NOTE: For this project, I used SQL to clean and transform the dataset and Power BI to visualize the data. I set myself the self-challenge of using SQL instead of Power Query for further customization of the dataset.
@@ -286,22 +314,30 @@ This study aims to analyze various aspects of the data profession, including mar
 # My Analysis: #
 - In this survey, which included a total of 630 participants, 261 were found to be residing in the United States. As a resident of the US, I am keen to focus my analysis on data pertaining to this region. Notably, the survey reveals that the median age of participants is 29 years old, and the median annual salary is $75,500.
   
+  (*Number of Participants in the US, Median Age of Participants, and Median Salary*
+  
   ![image](https://user-images.githubusercontent.com/28738970/233820525-e7df7002-4d25-45c0-8c33-6ab9c1f47ef6.png)
 
 - Median salaries varied across sectors among the participants, with communication services and public sector having the lowest median salary at $53,000, while the others had a median salary of $75,000. However, it is important to note that this finding was based on a smaller sample size of 38 participants working in the communication services and public sector.
 - Among the 38 participants working in the public and communication services sector, individuals with a masters degree and those with a high school degree were found to have the highest median salary of $75,000.
 - It is worth noting that out of the 38 participants working in the public and communication services sector, 3 held a high school diploma while 17 held a master's degree. This suggests that the median salary figure for individuals with a master's degree may be more reliable due to the larger sample size. 
 
+  (*Drill Through Report of Data Professional in the US by Communication Services and Public Sector*
+  
   ![image](https://user-images.githubusercontent.com/28738970/233820809-f1ae6690-4354-4421-af48-9572c5716621.png)
 
 - Among 261 US-based data professionals who participated in the survey, Python was the most popular tool, chosen by 57% of the respondents, followed by R and SQL.
 - When it comes to breaking into the field, 39% of the respondents found it to be neither easy nor difficult, while 27% found it to be difficult and 22% found it to be easy.
 - In terms of what they value most for their next employment, 46% of the respondents voted for a better salary, while 20% voted for remote work.
 
+  (*Survey responses among 261 US Participants*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233821314-2b391916-531a-40c2-833b-49e27132a9bb.png)
 
 - When asked to rate their job satisfaction on a scale of 1 to 10 based on factors such as management, salary, upward mobility, work/life balance, coworkers, and learning, the survey respondents gave the highest average scores to coworkers and work/life balance. On the other hand, salary received the lowest average satisfaction score, with respondents averaging a score of 5 out of 10.
 
+  (*Satisfaction Score Among 261 US Participants*)
+  
   ![image](https://user-images.githubusercontent.com/28738970/233821471-f46df57f-bce7-4638-979a-b3e74346005e.png)
 
 - Out of the 261 participants in the US, 79 were female and 182 were male.
@@ -324,6 +360,6 @@ This study aims to analyze various aspects of the data profession, including mar
 
 
 #### Disclaimer: #
-*The data provided may not fully reflect the real trends due to various factors like differences among countries, the demographics of the viewers of Alex the Analyst, a limited sample size of 630, and the honesty of the participants' answers. To gain more accurate and precise insights, it may be necessary to gather more data.*
+*The data provided may not fully reflect the real trends due to various factors, such as differences between cultures and trends between countries, the demographics of Alex the Analyst's subscribers, a limited sample size of 630, and the accuracy of the participants' answers. To gain more accurate and precise insights, it may be necessary to gather more data and conduct further research, such as expanding the sample size, including a more diverse group of participants, and conducting surveys across different platforms and regions.*
 
 </details>
